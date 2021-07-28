@@ -33,7 +33,7 @@ Examples for creating lists are illustrated below:
 - Normals lists.
   - Bulleted lists.
      - Lists with various indentation levels.
-        - Or even more idented.
+        - Or even more indented.
 
 
 1. This is an example of a numbered list.
@@ -54,8 +54,7 @@ class App extends React.Component {
 	}
 
 	getMarkdownText = () => {
-		// const rawMarkup = marked('This is _Markdown_.', {sanitize: true});
-		const rawMarkup = marked(this.state.editorInput, {sanitize: true});
+		const rawMarkup = marked(this.state.editorInput, {sanitize: true, breaks: true});
 		// console.log(this.state.editorInput, rawMarkup);
 		return {__html: rawMarkup};
 	};
@@ -87,8 +86,15 @@ class App extends React.Component {
 
 		// console.log(this.state);
 		return (
-			<div className='container-fluid bg-info p-2'>
-				<div className='form-group w-50 mx-auto editorWrap'>
+			<div
+				className='container-fluid bg-info p-2'
+				style={{height: '100vh', overflow: 'scroll'}}
+			>
+				<div
+					className={`form-group w-${
+						this.state.editorButton === 'compressed' ? '50' : '100'
+					} mx-auto editorWrap mt-4`}
+				>
 					<label className='toolbar' htmlFor='editor'>
 						<i
 							className={`fa ${
@@ -104,14 +110,21 @@ class App extends React.Component {
 						className='form-control bg-light'
 						id='editor'
 						name='editor'
-						rows='20'
+						rows='30'
 						cols='33'
 						value={editorInput}
 						// onClick={this.handleKeyDown}
+						style={{
+							height: `${this.state.editorButton === 'compressed' ? '100%' : '90vh'} `,
+						}}
 					/>
 				</div>
 
-				<div className='form-group w-50 mx-auto previewWrap'>
+				<div
+					className={`form-group w-${
+						this.state.previewButton === 'compressed' ? '50' : '100'
+					} mx-auto previewWrap`}
+				>
 					<label className='toolbar'>
 						<i
 							className={`fa ${
@@ -125,7 +138,13 @@ class App extends React.Component {
 						Preview
 					</label>
 
-					<div className='form-control bg-dark'>
+					<div
+						className='form-control bg-dark'
+						style={{
+							height: `${this.state.previewButton === 'compressed' ? '50vh' : '90vh'}`,
+							overflow: 'scroll',
+						}}
+					>
 						<div
 							className='preview bg-dark text-light'
 							id='preview'
